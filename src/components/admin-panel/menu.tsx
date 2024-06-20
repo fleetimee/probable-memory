@@ -15,6 +15,7 @@ import {
   TooltipContent,
   TooltipProvider,
 } from "@/components/ui/tooltip";
+import { destroy } from "@/lib/action";
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -108,7 +109,9 @@ export function Menu({ isOpen }: MenuProps) {
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
                   <Button
-                    onClick={() => {}}
+                    onClick={async () => {
+                      await destroy();
+                    }}
                     variant="outline"
                     className="w-full justify-center h-10 mt-5"
                   >

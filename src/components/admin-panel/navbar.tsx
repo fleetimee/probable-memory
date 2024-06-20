@@ -19,9 +19,6 @@ export function Navbar({ title }: NavbarProps) {
         <div className="flex flex-1 items-center space-x-2 justify-end">
           <ModeToggle />
           <UserNav />
-          <form action={destroy}>
-            <button type="submit">Sign out</button>
-          </form>
         </div>
       </div>
     </header>

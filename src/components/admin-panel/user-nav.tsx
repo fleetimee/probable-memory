@@ -70,8 +70,15 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-
-        {/* </DropdownMenuItem> */}
+        <DropdownMenuItem
+          className="hover:cursor-pointer"
+          onClick={async () => {
+            await destroy();
+          }}
+        >
+          <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
+          Sign out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
