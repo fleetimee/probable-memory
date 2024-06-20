@@ -1,7 +1,4 @@
-"use client";
-
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { LoginForm } from "@/components/forms/login-form";
 import Link from "next/link";
 
 export default function FUILoginWithCardLayout() {
@@ -20,29 +17,7 @@ export default function FUILoginWithCardLayout() {
             Sign in to your account
           </p>
         </div>
-        <form className="space-y-4">
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              placeholder="m@example.com"
-              required
-              type="email"
-            />
-          </div>
-          <div>
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              placeholder="••••••••"
-              required
-              type="password"
-            />
-          </div>
-          <button className="relative h-12 w-full mx-auto text-center font-geist tracking-tighter  overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-300 hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2">
-            <span className="relative">Sign In</span>
-          </button>
-        </form>
+        <LoginForm />
         <div className="mt-6 text-center text-sm">
           <p className="text-gray-500 dark:text-gray-400">
             Dont have an account?
