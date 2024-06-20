@@ -15,9 +15,13 @@ export const {
   providers: [
     Credentials({
       async authorize(credentials) {
+        console.log(credentials);
+
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(6) })
           .safeParse(credentials);
+
+        console.log(parsedCredentials);
 
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
@@ -28,6 +32,9 @@ export const {
           if (!user) return null;
 
           let passwordMatch = await compare(password, user[0].password!);
+
+          console.log(passwordMatch);
+
           if (passwordMatch) return user[0];
         }
 

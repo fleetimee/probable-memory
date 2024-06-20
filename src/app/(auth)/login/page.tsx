@@ -18,26 +18,6 @@ export default function FUILoginWithCardLayout() {
           </p>
         </div>
         <LoginForm />
-        <div className="mt-6 text-center text-sm">
-          <p className="text-gray-500 dark:text-gray-400">
-            Dont have an account?
-            <Link
-              className="font-medium text-gray-900 underline-offset-4 hover:underline dark:text-gray-500 ml-2"
-              href="#"
-            >
-              Sign up
-            </Link>
-          </p>
-          <p className="mt-4 text-gray-500 dark:text-gray-400">
-            Forgot your password?
-            <Link
-              className="font-medium text-gray-900 underline-offset-4 hover:underline dark:text-gray-500 ml-2"
-              href="#"
-            >
-              Reset password
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   );
