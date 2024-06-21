@@ -6,7 +6,7 @@ import { useActionState } from "react";
 import { authenticate } from "@/lib/action";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
-import { Loader2, LoaderCircle } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export function LoginForm() {
   const [errorMessage, formAction, pending] = useActionState(
@@ -54,14 +54,6 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    // <button
-    //   type="submit"
-    //   disabled={pending}
-    //   className="relative h-12 w-full mx-auto text-center font-geist tracking-tighter  overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-300 hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
-    // >
-    //   <span className="relative">Sign In</span>
-    // </button>
-
     <Button
       type="submit"
       disabled={pending}

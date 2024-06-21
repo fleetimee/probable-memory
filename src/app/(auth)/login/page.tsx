@@ -1,7 +1,6 @@
 import { LoginForm } from "@/components/forms/login-form";
-import Link from "next/link";
 
-export default function FUILoginWithCardLayout() {
+export default function LoginPage() {
   return (
     <div className="flex min-h-[100dvh] relative items-center justify-center bg-gray-100 px-4 dark:bg-white">
       <div className="absolute inset-0 z-0 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">

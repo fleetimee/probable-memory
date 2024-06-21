@@ -30,5 +30,7 @@ migrate(db, { migrationsFolder: "drizzle" });
 export default db;
 
 export async function getUser(email: string) {
-  return await db.select().from(users).where(eq(users.email, email));
+  const [user] = await db.select().from(users).where(eq(users.email, email));
+
+  return user;
 }
