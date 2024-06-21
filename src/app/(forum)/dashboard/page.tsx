@@ -12,7 +12,11 @@ import { fThreadParticipants, fThreads, users } from "@/models/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { auth } from "../../../../auth";
-import { DashboardContent } from "@/components/reuseable/dashboard/DashboardContent";
+import {
+  DashboardContent,
+  DashboardContentPopulated,
+} from "@/components/reuseable/dashboard/DashboardContent";
+import { Card, CardContent } from "@/components/ui/card";
 
 async function fetchUserThreads(userId: string) {
   const threads = await db
@@ -43,7 +47,7 @@ export default async function DashboardPage() {
   console.log(session);
 
   return (
-    <ContentLayout title="Dashboard">
+    <ContentLayout title="Forum">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -53,18 +57,28 @@ export default async function DashboardPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/dashboard">Dashboard</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Posts</BreadcrumbPage>
+            <BreadcrumbPage>
+              <BreadcrumbLink asChild>
+                <Link href="/dashboard">Forum</Link>
+              </BreadcrumbLink>
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      <DashboardContent />
+      {userThread.length === 0 ? (
+        <DashboardContent />
+      ) : (
+        <Card className="rounded-lg border-none mt-6">
+          <CardContent className="p-6">
+            {userThread.map((thread) => (
+              <div className=" py-4" key={thread.threadId}>
+                <DashboardContentPopulated key={thread.threadId} {...thread} />
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      )}
     </ContentLayout>
   );
 }
