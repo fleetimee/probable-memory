@@ -151,8 +151,10 @@ export default async function ForumGetOnePage({
 
           <Separator className="my-2" />
 
-          <div className="py-4 font-semibold">
-            <h1>Participant</h1>
+          <div className="py-4 font-semibold flex flex-col space-y-4">
+            <h1 className="text-lg font-semibold text-foreground">
+              Participant
+            </h1>
 
             <div className="flex flex-col space-y-2">
               {participants.map((participant) => (
@@ -167,7 +169,9 @@ export default async function ForumGetOnePage({
                     />
                     <AvatarFallback />
                   </Avatar>
-                  <span>{participant.name}</span>
+                  <span className="text-sm text-muted-foreground">
+                    {participant.name}
+                  </span>
                 </div>
               ))}
             </div>
