@@ -21,6 +21,8 @@ const pg = postgres({
   database: DB_NAME,
   ssl: DB_SSL,
   max: DB_MAX_CONNECTIONS,
+  idle_timeout: 20,
+  max_lifetime: 60 * 30,
 });
 
 const db = drizzle(pg);
