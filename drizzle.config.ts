@@ -11,15 +11,24 @@ import {
 
 import { defineConfig } from "drizzle-kit";
 
+// @ts-ignore
 export default defineConfig({
   schema: "./src/models",
   out: "./drizzle",
   dialect: "postgresql",
+  // dbCredentials: {
+  //   host: "elearning.fleetime.my.id",
+  //   port: 5432,
+  //   user: "postgres",
+  //   password: "admin*tik",
+  //   database: "neondb",
+  // },
   dbCredentials: {
-    host: "elearning.fleetime.my.id",
-    port: 5432,
-    user: "postgres",
-    password: "admin*tik",
-    database: "neondb",
+    host: DB_HOST,
+    port: DB_PORT,
+    user: DB_USER,
+    password: DB_PASS,
+    database: DB_NAME,
+    ssl: DB_SSL,
   },
 });

@@ -6,6 +6,8 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 
 function DashboardContent() {
   return (
@@ -21,30 +23,47 @@ function DashboardContent() {
   );
 }
 
+interface DashboardContentPopulatedProps {
+  title: string;
+  content: string;
+  url: string;
+}
+
 function DashboardContentPopulated({
   title,
   content,
-}: {
-  title: string;
-  content: string;
-}) {
+  url,
+}: DashboardContentPopulatedProps) {
   return (
-    <Card className="w-full">
-      <CardHeader className="space-y-2">
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>
-          {content.length > 100 ? `${content.slice(0, 100)}...` : content}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="outline">Beginner</Badge>
-          <Badge variant="outline">JavaScript</Badge>
-          <Badge variant="outline">Frontend</Badge>
-          <Badge variant="outline">UI</Badge>
-        </div>
-      </CardContent>
-    </Card>
+    <Link href={url}>
+      <Card className="w-full">
+        <CardHeader>
+          <div className="flex items-start justify-start">
+            <Avatar>
+              <AvatarImage
+                src="https://pbs.twimg.com/profile_images/1804384604897652736/eHQ7nueI_400x400.jpg"
+                alt="User Avatar"
+              />
+              <AvatarFallback />
+            </Avatar>
+            <div className="ml-4">
+              <CardTitle>{title}</CardTitle>
+              <CardDescription>
+                {content.length > 100 ? `${content.slice(0, 100)}...` : content}
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="outline">Beginner</Badge>
+            <Badge variant="outline">JavaScript</Badge>
+            <Badge variant="outline">Frontend</Badge>
+            <Badge variant="outline">UI</Badge>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
 
