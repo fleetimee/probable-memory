@@ -23,11 +23,12 @@ import {
 import { destroy } from "@/lib/action";
 
 import { useSession, SessionProvider } from "next-auth/react";
+import useInitials from "@/hooks/use-initial";
 
 export function UserNav() {
   const { data: session } = useSession();
 
-  console.log(session);
+  const initial = useInitials();
 
   return (
     <SessionProvider>
@@ -43,7 +44,7 @@ export function UserNav() {
                   <Avatar className="h-8 w-8">
                     <AvatarImage src="#" alt="Avatar" />
                     <AvatarFallback className="bg-transparent">
-                      JD
+                      {initial}
                     </AvatarFallback>
                   </Avatar>
                 </Button>

@@ -93,8 +93,8 @@ export default async function ForumPage() {
       ) : (
         <Card className="rounded-lg border-none mt-6">
           <CardContent className="p-6 flex flex-col">
-            <Button className="self-end" asChild>
-              <Link href="/dashboard/create">Create Thread</Link>
+            <Button className="self-end" variant="gooeyRight" asChild>
+              <Link href="/dashboard/create">Buat Thread Baru</Link>
             </Button>
 
             {userThread.map((thread) => (
@@ -114,6 +114,12 @@ export default async function ForumPage() {
                 </PaginationItem>
                 <PaginationItem>
                   <PaginationLink href="#">1</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">2</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">3</PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
                   <PaginationEllipsis />

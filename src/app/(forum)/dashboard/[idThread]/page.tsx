@@ -10,10 +10,10 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import db from "@/database/connect";
 import { fPosts, fThreadParticipants, fThreads, users } from "@/models/schema";
-import { eq } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 import Link from "next/link";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Megaphone } from "lucide-react";
+import { Info, Megaphone } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -25,12 +25,25 @@ import {
 import { DashboardContentPopulated } from "@/components/reuseable/dashboard/DashboardContent";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 async function fetchOneThread(idThread: string) {
   const [thread] = await db
-    .select()
+    .select({
+      threadId: fThreads.threadId,
+      threadTitle: fThreads.threadTitle,
+      threadContent: fThreads.threadContent,
+      threadStatus: fThreads.threadStatus,
+      createdAt: fThreads.createdAt,
+      approvedAt: fThreads.approvedAt,
+      createdBy: fThreads.createdBy,
+      approvedBy: users.name,
+    })
     .from(fThreads)
-    .where(eq(fThreads.threadId, idThread));
+    .where(eq(fThreads.threadId, idThread))
+    .innerJoin(users, eq(users.uuid, fThreads.createdBy));
 
   return thread;
 }
@@ -64,6 +77,15 @@ async function fetchThreadParticipants(threadId: string) {
     .innerJoin(users, eq(users.uuid, fThreadParticipants.userId));
 
   return participants;
+}
+
+async function fetchThreadParticipantsCount(threadId: string) {
+  await db
+    .select({
+      count: count(),
+    })
+    .from(fThreadParticipants)
+    .where(eq(fThreadParticipants.threadId, threadId));
 }
 
 interface ForumGetOnePageProps {
@@ -130,54 +152,114 @@ export default async function ForumGetOnePage({
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Sheet>
-        <SheetTrigger asChild>
-          <Alert className="my-4">
-            <Megaphone className="h-4 w-4" />
+      <Alert className="my-4">
+        <Megaphone className="h-4 w-4" />
+        <div className="flex justify-between w-full items-center">
+          <div className="flex flex-col items-start">
             <AlertTitle>Thread Starter</AlertTitle>
             <AlertDescription>
-              <span className="text-blue-500 font-bold">
-                {threadStarter.name}
-              </span>{" "}
-              started this thread on
+              <span className="font-bold">{threadStarter.name}</span> memulai
+              thread ini
             </AlertDescription>
-          </Alert>
-        </SheetTrigger>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Detail</SheetTitle>
-            <SheetDescription>Detail thread information</SheetDescription>
-          </SheetHeader>
+          </div>
 
-          <Separator className="my-2" />
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="expandIcon" Icon={Info} iconPlacement="right">
+                Informasi
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Overview</SheetTitle>
+                <SheetDescription>
+                  Informasi terkait thread ini
+                </SheetDescription>
+              </SheetHeader>
 
-          <div className="py-4 font-semibold flex flex-col space-y-4">
-            <h1 className="text-lg font-semibold text-foreground">
-              Participant
-            </h1>
+              <Separator className="my-2" />
 
-            <div className="flex flex-col space-y-2">
-              {participants.map((participant) => (
-                <div
-                  key={participant.name}
-                  className="flex flex-row items-center space-x-2"
+              <div className="py-4 font-semibold flex flex-col space-y-4">
+                <h1 className="text-lg font-semibold text-foreground">
+                  Participant{" "}
+                  {participants.length ? `(${participants.length})` : "0"}
+                </h1>
+
+                <div className="flex flex-col space-y-2 gap-2">
+                  <ScrollArea className="h-[120px]  rounded-md border p-2 gap-4">
+                    {participants.map((participant) => (
+                      <div
+                        key={participant.name}
+                        className="flex flex-row items-center space-x-2 mb-2"
+                      >
+                        <Avatar>
+                          <AvatarImage
+                            src="https://pbs.twimg.com/profile_images/1804384604897652736/eHQ7nueI_400x400.jpg"
+                            alt="User Avatar"
+                          />
+                          <AvatarFallback />
+                        </Avatar>
+                        <span className="text-sm text-muted-foreground">
+                          {participant.name}
+                        </span>
+                      </div>
+                    ))}
+                  </ScrollArea>
+                </div>
+              </div>
+
+              <div className="py-4 font-semibold flex flex-col space-y-4">
+                <h1 className="text-lg font-semibold text-foreground">
+                  Status
+                </h1>
+
+                <Badge
+                  className="w-fit"
+                  variant={
+                    thread.threadStatus === "approved" ? "success" : "pending"
+                  }
                 >
-                  <Avatar>
-                    <AvatarImage
-                      src="https://pbs.twimg.com/profile_images/1804384604897652736/eHQ7nueI_400x400.jpg"
-                      alt="User Avatar"
-                    />
-                    <AvatarFallback />
-                  </Avatar>
+                  {thread.threadStatus?.toUpperCase()}
+                </Badge>
+              </div>
+
+              <div className="py-4 font-semibold flex flex-col space-y-4">
+                <h1 className="text-lg font-semibold text-foreground">
+                  Created At
+                </h1>
+
+                <span className="text-sm text-muted-foreground">
+                  {thread.createdAt?.toString()}
+                </span>
+              </div>
+
+              {thread.threadStatus === "approved" && (
+                <div className="py-4 font-semibold flex flex-col space-y-4">
+                  <h1 className="text-lg font-semibold text-foreground">
+                    Approved At
+                  </h1>
+
                   <span className="text-sm text-muted-foreground">
-                    {participant.name}
+                    {thread.approvedAt?.toString()}
                   </span>
                 </div>
-              ))}
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
+              )}
+
+              {thread.threadStatus === "approved" && (
+                <div className="py-4 font-semibold flex flex-col space-y-4">
+                  <h1 className="text-lg font-semibold text-foreground">
+                    Approver
+                  </h1>
+
+                  <span className="text-sm text-muted-foreground">
+                    {thread.approvedBy}
+                  </span>
+                </div>
+              )}
+            </SheetContent>
+          </Sheet>
+        </div>
+      </Alert>
 
       <Card className="rounded-lg border-none mt-6">
         <CardContent className="p-6 flex flex-col">
@@ -193,3 +275,9 @@ export default async function ForumGetOnePage({
     </ContentLayout>
   );
 }
+
+interface ForumGetOneDetailSheetProps {
+  children: React.ReactNode;
+}
+
+function ForumGetOneDetailSheet({ children }: ForumGetOneDetailSheetProps) {}
