@@ -3,10 +3,10 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useActionState } from "react";
-import { authenticate } from "@/lib/action";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
+import { authenticate } from "@/action/auth-action";
 
 export function LoginForm() {
   const [errorMessage, formAction, pending] = useActionState(

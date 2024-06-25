@@ -15,7 +15,7 @@ import {
   TooltipContent,
   TooltipProvider,
 } from "@/components/ui/tooltip";
-import { destroy } from "@/lib/action";
+import { destroy } from "@/action/auth-action";
 
 interface MenuProps {
   isOpen: boolean | undefined;

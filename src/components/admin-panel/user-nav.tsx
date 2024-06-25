@@ -20,10 +20,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { destroy } from "@/lib/action";
 
 import { useSession, SessionProvider } from "next-auth/react";
 import useInitials from "@/hooks/use-initial";
+import { destroy } from "@/action/auth-action";
 
 export function UserNav() {
   const { data: session } = useSession();

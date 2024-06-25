@@ -1,8 +1,6 @@
 import { UserNav } from "@/components/admin-panel/user-nav";
 import { SheetMenu } from "@/components/admin-panel/sheet-menu";
 import { ModeToggle } from "@/components/mode-toggle";
-import { destroy } from "@/lib/action";
-import { signOut } from "../../../auth";
 
 interface NavbarProps {
   title: string;
