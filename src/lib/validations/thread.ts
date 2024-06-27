@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const createThreadSchema = z.object({
-  thredTitle: z
+  threadTitle: z
     .string()
     .min(5, {
       message: "Thread title must be at least 5 characters",

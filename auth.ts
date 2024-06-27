@@ -58,13 +58,6 @@ export const {
   callbacks: {
     jwt({ token, user }) {
       if (user) {
-        console.log(user);
-
-        // @ts-ignore
-        // console.log(user.profile_picture);
-        // @ts-ignore
-        console.log(user.uuid);
-
         // User is available during sign-in
         // @ts-ignore
         token.uuid = user.uuid;
@@ -76,8 +69,6 @@ export const {
     session({ session, token }) {
       // `session.user.address` is now a valid property, and will be type-checked
       // in places like `useSession().data.user` or `auth().user`
-
-      console.log(token);
 
       return {
         ...session,

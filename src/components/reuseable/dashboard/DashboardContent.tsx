@@ -41,7 +41,7 @@ function DashboardContentPopulated({
           <div className="flex items-start justify-start">
             <Avatar>
               <AvatarImage
-                src="https://pbs.twimg.com/profile_images/1804384604897652736/eHQ7nueI_400x400.jpg"
+                src="https://avatars.githubusercontent.com/u/45744788?v=4"
                 alt="User Avatar"
               />
               <AvatarFallback />

@@ -30,6 +30,8 @@ export function useFormAction<
     if (!hasState(state)) return;
     form.clearErrors();
 
+    console.log(state);
+
     switch (state.code) {
       case "INTERNAL_ERROR":
         toast({

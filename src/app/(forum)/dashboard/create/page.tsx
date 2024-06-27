@@ -13,6 +13,7 @@ import { Terminal } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
+import { CreateThreadForm } from "@/components/forms/create-thread-form";
 
 export default async function CreateForumPage() {
   const session = await auth();
@@ -53,7 +54,9 @@ export default async function CreateForumPage() {
       </Alert>
 
       <Card className="rounded-lg border-none mt-6">
-        <CardContent className="p-6 flex flex-col"></CardContent>
+        <CardContent className="p-6 flex flex-col">
+          <CreateThreadForm />
+        </CardContent>
       </Card>
     </ContentLayout>
   );
