@@ -38,8 +38,7 @@ export async function createThread(
     });
 
     revalidatePath("/dashboard");
-    revalidatePath("/dashboard/create");
-    revalidatePath("/mythread");
+    revalidatePath("/thread/mythread");
 
     return {
       code: "SUCCESS",

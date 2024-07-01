@@ -41,23 +41,23 @@ export function getMenuList(pathname: string): Group[] {
       ],
     },
     {
-      groupLabel: "Contents",
+      groupLabel: "Threads",
       menus: [
         {
           href: "",
-          label: "Posts",
-          active: pathname.includes("/posts"),
+          label: "Threads",
+          active: pathname.includes("/thread"),
           icon: SquarePen,
           submenus: [
             {
-              href: "/posts",
-              label: "All Posts",
-              active: pathname === "/posts",
+              href: "/thread/mythread",
+              label: "My Threads",
+              active: pathname === "/thread/mythread",
             },
             {
-              href: "/posts/new",
+              href: "/thread/create",
               label: "New Post",
-              active: pathname === "/posts/new",
+              active: pathname === "/thread/create",
             },
           ],
         },

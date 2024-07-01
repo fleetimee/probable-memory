@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import db from "@/database/connect";
 import { fThreadParticipants, fThreads, users } from "@/models/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import Link from "next/link";
 import { auth } from "../../../../auth";
 import {
@@ -48,7 +48,13 @@ async function fetchUserThreads(userId: string) {
       createdByProfilePicture: users.profilePicture,
     })
     .from(fThreadParticipants)
-    .where(eq(fThreadParticipants.userId, userId))
+    .where(
+      and(
+        eq(fThreadParticipants.userId, userId),
+        eq(fThreads.isApproved, true),
+        eq(fThreads.threadStatus, "approved")
+      )
+    )
     .innerJoin(fThreads, eq(fThreads.threadId, fThreadParticipants.threadId))
     .innerJoin(users, eq(users.uuid, fThreads.createdBy));
 

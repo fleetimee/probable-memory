@@ -30,14 +30,14 @@ export default async function CreateForumPage() {
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/dashboard">Forum</Link>
+              <Link href="#">Thread</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage>
               <BreadcrumbLink asChild>
-                <Link href="/dashboard/create">Buat Thread</Link>
+                <Link href="/thread/create">Buat Thread</Link>
               </BreadcrumbLink>
             </BreadcrumbPage>
           </BreadcrumbItem>

@@ -48,6 +48,8 @@ export function CreateThreadForm() {
         title: "Thread created successfully",
         duration: 5000,
       });
+
+      router.push("/thread/mythread");
     },
   });
 
