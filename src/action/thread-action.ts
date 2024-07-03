@@ -19,10 +19,6 @@ export async function createThread(
     categoryId: formData.get("categoryId") as string,
   });
 
-  console.log(formData);
-
-  console.log(parse);
-
   if (!parse.success) {
     const { fieldErrors } = parse.error.flatten();
 
