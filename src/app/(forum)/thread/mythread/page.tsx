@@ -81,7 +81,7 @@ export default async function MyThreadPage() {
               <div className=" py-4" key={thread.threadId}>
                 <DashboardContentPopulated
                   key={thread.threadId}
-                  url={`/dashboard/${thread.threadId}`}
+                  url={`/thread/${thread.threadId}`}
                   {...thread}
                 />
               </div>

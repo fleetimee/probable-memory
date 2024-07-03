@@ -23,6 +23,7 @@ const pg = postgres({
   max: DB_MAX_CONNECTIONS,
   idle_timeout: 20,
   max_lifetime: 60 * 30,
+  onnotice: () => {},
 });
 
 const db = drizzle(pg);

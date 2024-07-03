@@ -12,4 +12,5 @@ export const createThreadSchema = z.object({
   updatedAt: z.date(),
   createdBy: z.string(),
   updatedBy: z.string(),
+  categoryId: z.string(),
 });

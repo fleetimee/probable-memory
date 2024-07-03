@@ -97,46 +97,40 @@ export default async function ForumPage() {
       {userThread.length === 0 ? (
         <DashboardContent />
       ) : (
-        <Card className="rounded-lg border-none mt-6">
-          <CardContent className="p-6 flex flex-col">
-            <Button className="self-end" variant="gooeyRight" asChild>
-              <Link href="/dashboard/create">Buat Thread Baru</Link>
-            </Button>
+        <>
+          {userThread.map((thread) => (
+            <div className=" py-4" key={thread.threadId}>
+              <DashboardContentPopulated
+                key={thread.threadId}
+                url={`/thread/${thread.threadId}`}
+                {...thread}
+              />
+            </div>
+          ))}
 
-            {userThread.map((thread) => (
-              <div className=" py-4" key={thread.threadId}>
-                <DashboardContentPopulated
-                  key={thread.threadId}
-                  url={`/dashboard/${thread.threadId}`}
-                  {...thread}
-                />
-              </div>
-            ))}
-
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">2</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </CardContent>
-        </Card>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">2</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </>
       )}
     </ContentLayout>
   );

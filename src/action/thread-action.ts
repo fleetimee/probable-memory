@@ -16,7 +16,12 @@ export async function createThread(
     updatedAt: new Date(formData.get("updatedAt") as string),
     createdBy: formData.get("createdBy") as string,
     updatedBy: formData.get("updatedBy") as string,
+    categoryId: formData.get("categoryId") as string,
   });
+
+  console.log(formData);
+
+  console.log(parse);
 
   if (!parse.success) {
     const { fieldErrors } = parse.error.flatten();
@@ -35,6 +40,7 @@ export async function createThread(
       updatedAt: parse.data.updatedAt,
       createdBy: parse.data.createdBy,
       updatedBy: parse.data.updatedBy,
+      categoryId: parse.data.categoryId,
     });
 
     revalidatePath("/dashboard");
