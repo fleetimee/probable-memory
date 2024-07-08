@@ -13,4 +13,5 @@ export const createThreadSchema = z.object({
   createdBy: z.string(),
   updatedBy: z.string(),
   categoryId: z.string(),
+  tags: z.array(z.string()).optional(),
 });

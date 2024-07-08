@@ -16,8 +16,6 @@ import {
   DashboardContent,
   DashboardContentPopulated,
 } from "@/components/reuseable/dashboard/DashboardContent";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { BookMarked } from "lucide-react";
 import { Metadata } from "next";
@@ -103,6 +101,7 @@ export default async function ForumPage() {
               <DashboardContentPopulated
                 key={thread.threadId}
                 url={`/thread/${thread.threadId}`}
+                tags={[]}
                 {...thread}
               />
             </div>

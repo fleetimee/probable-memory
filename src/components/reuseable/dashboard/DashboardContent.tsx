@@ -27,12 +27,14 @@ interface DashboardContentPopulatedProps {
   title: string;
   content: string;
   url: string;
+  tags: string[];
 }
 
 function DashboardContentPopulated({
   title,
   content,
   url,
+  tags,
 }: DashboardContentPopulatedProps) {
   return (
     <Link href={url}>
@@ -56,10 +58,16 @@ function DashboardContentPopulated({
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            <Badge variant="outline">Beginner</Badge>
+            {/* <Badge variant="outline">Beginner</Badge>
             <Badge variant="outline">JavaScript</Badge>
             <Badge variant="outline">Frontend</Badge>
-            <Badge variant="outline">UI</Badge>
+            <Badge variant="outline">UI</Badge> */}
+
+            {tags.map((tag) => (
+              <Badge key={tag} variant="outline">
+                {tag}
+              </Badge>
+            ))}
           </div>
         </CardContent>
       </Card>

@@ -267,6 +267,7 @@ export default async function ForumGetOnePage({
             content={thread.threadContent}
             title={thread.threadTitle}
             key={thread.threadId}
+            tags={[]}
             url={`/dashboard/${thread.threadId}`}
             {...thread}
           />

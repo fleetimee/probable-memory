@@ -139,3 +139,5 @@ export const fThreadTags = pgTable(
     primaryKey: primaryKey(table.threadId, table.tagId),
   })
 );
+
+export type Users = typeof users.$inferSelect;

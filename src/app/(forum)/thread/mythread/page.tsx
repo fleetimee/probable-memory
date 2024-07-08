@@ -8,8 +8,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import db from "@/database/connect";
-import { fThreads, users } from "@/models/schema";
-import { eq } from "drizzle-orm";
+import { fTags, fThreads, fThreadTags, users } from "@/models/schema";
+import { desc, eq } from "drizzle-orm";
 import Link from "next/link";
 import { auth } from "../../../../../auth";
 import { redirect } from "next/navigation";
@@ -32,9 +32,22 @@ async function fetchUserCreatedThreads(userId: string) {
     })
     .from(fThreads)
     .where(eq(fThreads.createdBy, userId))
-    .innerJoin(users, eq(users.uuid, fThreads.createdBy));
+    .innerJoin(users, eq(users.uuid, fThreads.createdBy))
+    .orderBy(desc(fThreads.createdAt));
 
   return createdThreads;
+}
+
+async function fetchThreadTags(threadId: string) {
+  const threadTags = await db
+    .select({
+      tagName: fTags.tagName,
+    })
+    .from(fTags)
+    .innerJoin(fThreadTags, eq(fTags.tagId, fThreadTags.tagId)) // Join fThreadTags with fTags
+    .where(eq(fThreadTags.threadId, threadId)); // Apply the threadId condition
+
+  return threadTags.map((tag) => tag.tagName);
 }
 
 export default async function MyThreadPage() {
@@ -45,6 +58,16 @@ export default async function MyThreadPage() {
   }
 
   const userCreatedThread = await fetchUserCreatedThreads(session?.user.uuid);
+
+  const threadsWithTags = await Promise.all(
+    userCreatedThread.map(async (thread) => {
+      const tags = await fetchThreadTags(thread.threadId);
+      return {
+        ...thread,
+        tags,
+      };
+    })
+  );
 
   return (
     <ContentLayout title="My Threads">
@@ -82,6 +105,10 @@ export default async function MyThreadPage() {
                 <DashboardContentPopulated
                   key={thread.threadId}
                   url={`/thread/${thread.threadId}`}
+                  tags={
+                    threadsWithTags.find((t) => t.threadId === thread.threadId)
+                      ?.tags ?? []
+                  }
                   {...thread}
                 />
               </div>

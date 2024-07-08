@@ -15,7 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
 import { CreateThreadForm } from "@/components/forms/create-thread-form";
 import db from "@/database/connect";
-import { fThreadCategories } from "@/models/schema";
+import { fTags, fThreadCategories } from "@/models/schema";
 import { redirect } from "next/navigation";
 
 async function fetchCategory() {
@@ -29,6 +29,17 @@ async function fetchCategory() {
   return categories;
 }
 
+async function fetchTags() {
+  const tags = await db
+    .select({
+      tagId: fTags.tagId,
+      tagName: fTags.tagName,
+    })
+    .from(fTags);
+
+  return tags;
+}
+
 export default async function CreateForumPage() {
   const session = await auth();
 
@@ -36,7 +47,7 @@ export default async function CreateForumPage() {
     redirect("/login");
   }
 
-  const categories = await fetchCategory();
+  const [categories, tags] = await Promise.all([fetchCategory(), fetchTags()]);
 
   return (
     <ContentLayout title="Buat Thread">
@@ -75,7 +86,7 @@ export default async function CreateForumPage() {
 
       <Card className="rounded-lg border-none mt-6">
         <CardContent className="p-6 flex flex-col">
-          <CreateThreadForm categories={categories} />
+          <CreateThreadForm categories={categories} tags={tags} />
         </CardContent>
       </Card>
     </ContentLayout>
