@@ -1,13 +1,21 @@
-import "server only";
+"server only";
+
 import { GetUsersSchema } from "./schema";
-import { users, type Users } from "@/models/schema";
-import { and, asc, count, desc, or, SQL } from "drizzle-orm";
+import {
+  strukturOrganisasi,
+  users,
+  type Users,
+  type StrukturOrganisasi,
+} from "@/models/schema";
+import { and, asc, count, desc, eq, or, SQL } from "drizzle-orm";
 import { filterColumn } from "./filter-column";
 import { DrizzleWhere } from "@/types";
 import db from "@/database/connect";
 
+type JoinedUsers = Users & StrukturOrganisasi;
+
 export async function getUsers(input: GetUsersSchema) {
-  const { page, per_page, sort, title, status, from, to } = input;
+  const { page, per_page, sort, name, status, from, to, jabatan } = input;
 
   try {
     const offset = (page - 1) * per_page;
@@ -18,7 +26,7 @@ export async function getUsers(input: GetUsersSchema) {
     ]) as [keyof Users | undefined, "asc" | "desc" | undefined];
 
     const expression: (SQL<unknown> | undefined)[] = [
-      title ? filterColumn({ column: users.name, value: title }) : undefined,
+      name ? filterColumn({ column: users.name, value: name }) : undefined,
       !!status
         ? filterColumn({
             column: users.lastLogin,
@@ -26,10 +34,19 @@ export async function getUsers(input: GetUsersSchema) {
             isSelectable: true,
           })
         : undefined,
+      !!jabatan
+        ? filterColumn({
+            column: strukturOrganisasi.jabatan,
+            value: jabatan,
+            isSelectable: true,
+          })
+        : undefined,
     ];
 
-    const where: DrizzleWhere<Users> =
+    const where: DrizzleWhere<JoinedUsers> =
       !status || status === "and" ? and(...expression) : or(...expression);
+
+    console.log(where);
 
     const { data, total } = await db.transaction(async (trx) => {
       const data = await trx
@@ -38,6 +55,10 @@ export async function getUsers(input: GetUsersSchema) {
         .limit(per_page)
         .offset(offset)
         .where(where)
+        .innerJoin(
+          strukturOrganisasi,
+          eq(users.email, strukturOrganisasi.email)
+        )
         .orderBy(
           column && column in users
             ? order === "asc"
@@ -45,6 +66,15 @@ export async function getUsers(input: GetUsersSchema) {
               : desc(users[column])
             : desc(users.uuid)
         );
+
+      // Combine users and struktur_organisasi into a single object
+      const combinedData = data.map((item) => ({
+        ...item.users,
+        ...item.struktur_organisasi,
+      }));
+
+      // Log the query for debugging
+      console.log(data);
 
       const total = await trx
         .select({
@@ -55,7 +85,7 @@ export async function getUsers(input: GetUsersSchema) {
         .execute()
         .then((res) => res[0]?.count ?? 0);
 
-      return { data, total };
+      return { data: combinedData, total };
     });
 
     const pageCount = Math.ceil(total / per_page);

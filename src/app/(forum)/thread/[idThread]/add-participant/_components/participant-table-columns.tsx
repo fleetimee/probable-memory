@@ -1,9 +1,11 @@
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Users } from "@/models/schema";
+import { type Users, type StrukturOrganisasi } from "@/models/schema";
 import { type ColumnDef } from "@tanstack/react-table";
 
-export function getColumns(): ColumnDef<Users>[] {
+type JoinedUsers = Users & StrukturOrganisasi;
+
+export function getColumns(): ColumnDef<JoinedUsers>[] {
   return [
     {
       id: "select",
@@ -33,6 +35,24 @@ export function getColumns(): ColumnDef<Users>[] {
       accessorKey: "name",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Name" />
+      ),
+    },
+    {
+      accessorKey: "kdKantor",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Kode Kantor" />
+      ),
+    },
+    {
+      accessorKey: "jabatan",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Jabatan" />
+      ),
+    },
+    {
+      accessorKey: "unitkerja",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Unit" />
       ),
     },
   ];

@@ -26,6 +26,17 @@ export const users = pgTable("users", {
   phoneNumber: varchar("phone_number"),
 });
 
+export const strukturOrganisasi = pgTable("struktur_organisasi", {
+  email: varchar("email").primaryKey(),
+  kdKantor: varchar("kd_kantor"),
+  soid: integer("soid"),
+  mastersoid: integer("mastersoid"),
+  jabatan: varchar("jabatan"),
+  stsJabatan: integer("sts_jabatan"),
+  unitkerja: varchar("unitkerja"),
+  nama: varchar("nama"),
+});
+
 export const fThreads = pgTable("f_threads", {
   threadId: varchar("thread_id", { length: 255 })
     .default(`('threads_' || uuid_generate_v4())`)
@@ -141,3 +152,4 @@ export const fThreadTags = pgTable(
 );
 
 export type Users = typeof users.$inferSelect;
+export type StrukturOrganisasi = typeof strukturOrganisasi.$inferSelect;
