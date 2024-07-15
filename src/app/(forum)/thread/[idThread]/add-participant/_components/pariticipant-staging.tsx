@@ -9,30 +9,41 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import React, { useContext } from "react";
 import { type Users, type StrukturOrganisasi } from "@/models/schema";
-
-type JoinedUsers = Users & StrukturOrganisasi;
+import { ParticipantContext } from "./participant-content";
 
 export function ParticipantStaging() {
+  const context = useContext(ParticipantContext);
+
+  console.log(context?.participant);
+
   return (
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead>Nama</TableHead>
+          <TableHead>Kode Kantor</TableHead>
+          <TableHead>Jabatan</TableHead>
+          <TableHead>Unit</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
+        {/* <TableRow>
           <TableCell className="font-medium">INV001</TableCell>
           <TableCell>Paid</TableCell>
           <TableCell>Credit Card</TableCell>
           <TableCell className="text-right">$250.00</TableCell>
-        </TableRow>
+        </TableRow> */}
+
+        {context?.participant.map((item) => (
+          <TableRow key={item.uuid}>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.kdKantor}</TableCell>
+            <TableCell>{item.jabatan}</TableCell>
+            <TableCell>{item.unitkerja}</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );

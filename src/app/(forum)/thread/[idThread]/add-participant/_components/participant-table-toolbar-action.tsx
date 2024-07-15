@@ -5,6 +5,7 @@ import { type Users, type StrukturOrganisasi } from "@/models/schema";
 import { Button } from "@/components/ui/button";
 import React, { useContext } from "react";
 import { ParticipantContext } from "./participant-content";
+import { toast } from "sonner";
 
 type JoinedUsers = Users & StrukturOrganisasi;
 
@@ -25,7 +26,16 @@ export function ParticipantTableToolbarActions({
           size="sm"
           onClick={() => {
             table.getFilteredSelectedRowModel().rows.forEach((row) => {
-              context!.setParticipant((prev) => [...prev, row.original]);
+              const isDuplicate = context!.participant.some(
+                (participant) => participant.uuid === row.original.uuid
+              );
+              if (isDuplicate) {
+                alert(
+                  `Participant with ID ${row.original.nama} is already added.`
+                );
+              } else {
+                context!.setParticipant((prev) => [...prev, row.original]);
+              }
             });
           }}
         >

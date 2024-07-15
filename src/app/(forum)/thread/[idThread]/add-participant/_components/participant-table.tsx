@@ -20,10 +20,6 @@ export function ParticipantTables({
 }: ParticipantTableProps) {
   const { data, pageCount } = React.use(participantPromise);
 
-  //   const users = data.map((item) => item.users);
-
-  console.log(data);
-
   const columns = React.useMemo(() => getColumns(), []);
 
   const filterFields: DataTableFilterField<JoinedUsers>[] = [

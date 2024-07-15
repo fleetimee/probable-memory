@@ -13,3 +13,4 @@ export const DB_SSL =
         sslMode: "require",
       }
     : { rejectUnauthorized: false };
+export const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
