@@ -11,15 +11,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
-import { DateRangePicker } from "@/components/date-range-picker";
 import React from "react";
-import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
-import { ParticipantTables } from "./_components/participant-table";
 import { SearchParams } from "@/types";
 import { searchParamsSchema } from "@/lib/schema";
 import { getUsers } from "@/lib/queries";
-import { Card } from "@/components/ui/card";
+import { ParticipantContent } from "./_components/participant-content";
 
 export const metadata: Metadata = {
   title: "Add Participant",
@@ -75,32 +71,7 @@ export default function AddThreadParticipantPage({
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Card className="p-4 my-4 flex flex-col gap-2">
-        <React.Suspense fallback={<Skeleton className="h-7 w-52" />}>
-          <DateRangePicker
-            triggerSize="sm"
-            triggerClassName="ml-auto w-56 sm:w-60"
-            align="end"
-          />
-        </React.Suspense>
-        <React.Suspense
-          fallback={
-            <DataTableSkeleton
-              columnCount={5}
-              searchableColumnCount={1}
-              filterableColumnCount={2}
-              cellWidths={["10rem", "40rem", "12rem", "12rem", "8rem"]}
-              shrinkZero
-            />
-          }
-        >
-          {/**
-           * Passing promises and consuming them using React.use for triggering the suspense fallback.
-           * @see https://react.dev/reference/react/use
-           */}
-          <ParticipantTables participantPromise={participantPromise} />
-        </React.Suspense>
-      </Card>
+      <ParticipantContent participantPromise={participantPromise} />
     </ContentLayout>
   );
 }

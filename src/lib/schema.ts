@@ -10,6 +10,7 @@ export const searchParamsSchema = z.object({
   from: z.string().optional(),
   to: z.string().optional(),
   jabatan: z.string().optional(),
+  unitkerja: z.string().optional(),
 });
 
 export const getUsersSchema = searchParamsSchema;

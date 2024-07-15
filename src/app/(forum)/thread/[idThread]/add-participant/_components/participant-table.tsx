@@ -10,12 +10,11 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { ParticipantTableToolbarActions } from "./participant-table-toolbar-action";
 
+type JoinedUsers = Users & StrukturOrganisasi;
+
 interface ParticipantTableProps {
   participantPromise: ReturnType<typeof getUsers>;
 }
-
-type JoinedUsers = Users & StrukturOrganisasi;
-
 export function ParticipantTables({
   participantPromise,
 }: ParticipantTableProps) {
@@ -37,6 +36,11 @@ export function ParticipantTables({
       label: "Jabatan",
       value: "jabatan",
       placeholder: "Cari jabatan",
+    },
+    {
+      label: "Unit",
+      value: "unitkerja",
+      placeholder: "Cari unit",
     },
   ];
 
